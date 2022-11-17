@@ -10,20 +10,6 @@ queue<int> q;
 vector<int> g[100001];
 int check[100001];
 
-void bfs(int node) {
-	q.push(node);
-	check[node] = 0;
-	while (!q.empty()) {
-		int n = q.front(); q.pop();
-		for (int i = 0; i < g[n].size(); i++) {
-			if (check[g[n][i]] == -1) {
-				q.push(g[n][i]);
-				check[g[n][i]] = check[n] + 1;
-			}
-		}
-	}
-}
-
 int main() {
 	cin >> n >> m;
 
@@ -33,13 +19,22 @@ int main() {
 		g[x].push_back(y);
 	}
 
-	for (int i = 1; i <= n; i++) {
-		check[i] = -1;
+	q.push(1);
+	while (!q.empty()) {
+		int node = q.front(); q.pop();
+
+		while (!g[node].empty()) {
+			int i = g[node].back(); g[node].pop_back();
+
+			q.push(i);
+			
+			if (check[i] == 0) check[i] = check[node] + 1;
+			else check[i] = min(check[i], check[node] + 1);
+		}
 	}
 
-	bfs(1);
-	
-	if (check[n] == -1) cout << -1;
+	if (n == 1) cout << 0;
+	else if (check[n] == 0) cout << -1;
 	else cout << check[n];
 
 	return 0;
