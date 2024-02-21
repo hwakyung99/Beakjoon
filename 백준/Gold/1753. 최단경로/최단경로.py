@@ -6,8 +6,7 @@ V, E = map(int, input().split())
 K = int(input())
 g = [[] for _ in range(V + 1)]
 distance = [sys.maxsize] * (V + 1)
-visited = [False] * (V + 1)
-q =[]
+q = []
 
 for _ in range(E):
     u, v, w = map(int, input().split())
