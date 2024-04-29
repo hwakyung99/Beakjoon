@@ -3,22 +3,15 @@ input = sys.stdin.readline
 
 N, K = map(int, input().split())
 coin = []
-start, end, mid = 0, N - 1, 0
 ans = 0
 
 for _ in range(N):
     coin.append(int(input()))
 
-while start < end:
-    mid = (start + end) // 2
-    if coin[mid] <= K:
-        start = mid + 1
-    else:
-        end = mid - 1
-
-while K != 0:
-    ans += K // coin[start]
-    K %= coin[start]
-    start -= 1
-
+for i in range(N - 1, -1, -1):
+    if K == 0:
+        break
+    if K >= coin[i]:
+        ans += K // coin[i]
+        K %= coin[i]
 print(ans)
