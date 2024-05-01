@@ -1,26 +1,23 @@
-import sys
+import sys, math
 input = sys.stdin.readline
 
-a,b=map(int,input().split())
-arr=[False,False]+([True]*(int(b**0.5)-1))
-#02
-for i in range(2,int(b**0.5)+1):
-    if arr[i]:
-        if i*i>int(b**0.5):
-            break
-        for j in range(2*i,int(b**0.5)+1,i):
-            arr[j]=False
-cnt=0
+A, B = map(int, input().split())
 
-for i in range(2,len(arr)):
-    if arr[i]:
-        x=i*i
-        while True:
-            if x<a:
-                x*=i
-                continue
-            if x>b:
-                break
-            cnt+=1
-            x*=i
-print(cnt)
+prime = [True] * (int(math.sqrt(B)) + 1)
+prime[0], prime[1] = False, False
+ans = 0
+
+for i in range(2, int(math.sqrt(B)) + 1):
+    if prime[i]:
+        for j in range(2 * i, int(math.sqrt(B)) + 1, i):
+            prime[j] = False
+
+for i in range(2, int(math.sqrt(B)) + 1):
+    if prime[i]:
+        tmp = i * i
+        while tmp <= B:
+            if tmp >= A:
+                ans += 1
+            tmp *= i
+
+print(ans)
