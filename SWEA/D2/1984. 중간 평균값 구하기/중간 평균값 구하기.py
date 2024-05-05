@@ -42,19 +42,8 @@ for test_case in range(1, T + 1):
     arr = list(map(int, input().split()))
     ans = 0
     
-    mi = min(arr[0], arr[1])
-    mx = max(arr[0], arr[1])
+    arr.sort()
     
-    for i in range(2, len(arr)):
-        if mi <= arr[i] <= mx:
-            ans += arr[i]
-        elif arr[i] < mi:
-            ans += mi
-            mi = arr[i]
-        elif arr[i] > mx:
-            ans += mx
-            mx = arr[i]
-    
-    ans = round(ans / (len(arr) - 2))
+    ans = round(sum(arr[1:(len(arr)-1)]) / (len(arr)-2))
     
     print(f'#{test_case} {ans}')
