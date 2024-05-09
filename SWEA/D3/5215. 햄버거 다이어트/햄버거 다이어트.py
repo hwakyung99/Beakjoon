@@ -1,25 +1,30 @@
 T = int(input())
 
 
-def dfs(i, l):
-    global ans, total
+def dfs(i, l, s):
+    global ans, N
 
-    for j in range(i, N):
-        if l - arr[j][1] >= 0:
-            total += arr[j][0]
-            ans = max(ans, total)
-            dfs(j + 1, l - arr[j][1])
-            total -= arr[j][0]
+    if l < 0:
+        return
+    if i == N:
+        ans = max(ans, s)
+        return
+    dfs(i + 1, l - kcal[i], s + score[i])
+    dfs(i + 1, l, s)
 
 
 for test_case in range(1, T + 1):
     N, L = map(int, input().split())
-    arr = []
+    score = []
+    kcal = []
     for _ in range(N):
-        arr.append(list(map(int, input().split())))
+        S, K = map(int, input().split())
+        score.append(S)
+        kcal.append(K)
+
     ans = 0
     total = 0
 
-    dfs(0, L)
+    dfs(0, L, 0)
 
     print("#{} {}".format(test_case, ans))
