@@ -2,36 +2,27 @@ import sys
 import heapq
 input = sys.stdin.readline
 
-
-def find(x):
-    if parent[x] == x:
-        return x
-    parent[x] = find(parent[x])
-    return parent[x]
-
-
-def union(x, y):
-    x = find(x)
-    y = find(y)
-    if x != y:
-        parent[y] = x
-
-
 V, E = map(int, input().split())
-graph = []
-parent = [i for i in range(V + 1)]
+graph = [[] for _ in range(V + 1)]
+visited = [False] * (V + 1)
+pq = []
 mst = 0
 
 for _ in range(E):
     A, B, C = map(int, input().split())
-    heapq.heappush(graph, (C, A, B))
+    graph[A].append((B, C))
+    graph[B].append((A, C))
 
-i = 0
-while i < V - 1:
-    c, a, b = heapq.heappop(graph)
-    if find(a) != find(b):
-        union(a, b)
-        mst += c
-        i += 1
+heapq.heappush(pq, (0, 1))
+
+while pq:
+    w, e = heapq.heappop(pq)
+    if visited[e]:
+        continue
+    mst += w
+    visited[e] = True
+    for n_e, n_w in graph[e]:
+        if not visited[n_e]:
+            heapq.heappush(pq, (n_w, n_e))
 
 print(mst)
