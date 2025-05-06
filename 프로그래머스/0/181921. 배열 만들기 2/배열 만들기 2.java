@@ -1,31 +1,26 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 class Solution {
-    int l, r;
-    ArrayList<Integer> answer = new ArrayList<>();
     
     public int[] solution(int l, int r) {
         
-        this.l = l;
-        this.r = r;
+        ArrayList<Integer> answer = new ArrayList<>();
         
-        dfs("");
-        
-        if(answer.isEmpty()) answer.add(-1);
-        Collections.sort(answer);
-        return answer.stream().mapToInt(i -> i).toArray();
-    }
-    
-    private void dfs(String s) {
-        if(!s.isEmpty()) {
-            if(s.equals("0")) return;
-            if(Integer.parseInt(s) > r) return;
-            if(s.length() > String.valueOf(r).length()) return;
-            if(Integer.parseInt(s) >= l && Integer.parseInt(s) <= r) answer.add(Integer.parseInt(s));
+        for(int i = l; i <= r; i++) {
+            boolean flag = true;
+            int tmp = i;
+            while(tmp > 0) {
+                if(tmp % 5 != 0) {
+                    flag = false;
+                    break;
+                }
+                tmp /= 10;
+            }
+            
+            if(flag) answer.add(i);
         }
         
-        dfs(s + "0");
-        dfs(s + "5");
+        if(answer.isEmpty()) answer.add(-1);
+        return answer.stream().mapToInt(i -> i).toArray();
     }
 }
